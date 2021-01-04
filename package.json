@@ -1,12 +1,13 @@
 {
   "name": "svelte-app",
   "version": "1.0.0",
+  "main": "main.js",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public",
     "test": "npm run build && electron main.js",
-    "package": "npm run build && electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/Markdown.icns --prune=true --out=release-builds"
+    "package": "npm run build && electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/Markdown.icns --prune=true --out=build/Release"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^16.0.0",
@@ -22,7 +23,7 @@
   },
   "dependencies": {
     "dompurify": "^2.2.6",
-    "marked": "^1.2.7",
-    "sirv-cli": "^1.0.0"
-  }
+    "marked": "^1.2.7"
+  },
+  "productName": "Markdown Editor"
 }
