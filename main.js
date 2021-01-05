@@ -10,7 +10,8 @@ let unsavedChanges
 app.whenReady().then(() => {
     mainWindow = new BrowserWindow({
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: false
         }
     })
     mainWindow.setTitle('Markdown Editor')
@@ -36,8 +37,10 @@ app.whenReady().then(() => {
                     path: filePath,
                     content
                 })
+                return true
             })
         })
+        return false
     }
 
     const openFile = () => {
@@ -59,16 +62,16 @@ app.whenReady().then(() => {
     }
 
     ipcMain.on('savenewfile', (e, content) => {
-        createNewFile(content)
-        e.reply('update', content)
+        if (createNewFile(content)) {
+            e.reply('update')
+        }
     })
 
-	// TODO: Fix the unsaved changes for saveexistingfile
     ipcMain.on('saveexistingfile', (e, { path, content }) => {
         fs.writeFile(path, content, err => {
             if (err) return
         })
-        e.reply('update', content)
+        e.reply('update')
     })
 
     ipcMain.on('unsavedchanges-reply', (e, msg) => {

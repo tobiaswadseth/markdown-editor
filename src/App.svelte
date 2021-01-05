@@ -20,16 +20,14 @@
 		}
 	})
 
-	// TODO: Fix the unsaved changes for saveexistingfile
-	ipcRenderer.on('update', (e, { content }) => {
-		fileContent = content
+	ipcRenderer.on('update', () => {
+		unsavedChanges = false
 	})
 	
 	ipcRenderer.on('fileopened', (e, { path, content }) => {
 		activeFilePath = path
 		markdown = content
 		fileContent = content
-		unsavedChanges = false
 	})
 
 	$: unsavedChanges = !(fileContent === markdown)
